@@ -1,0 +1,14 @@
+{
+  "name": "com.justinleemans.statemachine",
+  "version": "1.0.0",
+  "displayName": "Statemachine",
+  "description": "Easy statemachine package for Unity",
+  "author": {
+    "name": "Justin Leemans"
+  },
+  "dependencies": {},
+  "keywords": [
+    "statemachine",
+	"state"
+  ]
+}
