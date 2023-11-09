@@ -1,6 +1,6 @@
 {
-    "name": "Statemachine",
-    "rootNamespace": "JeeLee.Statemachine",
+    "name": "StateMachine",
+    "rootNamespace": "JeeLee.StateMachine",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
