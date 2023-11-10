@@ -1,19 +1,32 @@
-using JeeLee.Statemachine;
 using System;
 
 namespace JeeLee.StateMachine
 {
-    public abstract class StateBehaviour<TState>
+    public abstract class StateBehaviour<TState> : IStateBehaviour<TState>
         where TState : Enum
     {
-        protected StateMachine<TState> StateMachine { get; private set; }
+        #region IStateBehaviour Members
 
-        public void SetSateMachine(StateMachine<TState> stateMachine)
+        public event Action<TState> OnStateFired;
+
+        public void Enter()
         {
-            StateMachine = stateMachine;
+            OnEnter();
         }
 
-        public abstract void OnEnter();
-        public abstract void OnExit();
+        public void Exit()
+        {
+            OnExit();
+        }
+
+        #endregion
+
+        protected void Fire(TState state)
+        {
+            OnStateFired?.Invoke(state);
+        }
+
+        protected abstract void OnEnter();
+        protected abstract void OnExit();
     }
 }

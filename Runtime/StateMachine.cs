@@ -7,8 +7,8 @@ namespace JeeLee.Statemachine
     public class StateMachine<TState>
         where TState : Enum
     {
-        private readonly Dictionary<TState, StateConfiguration<TState>> _stateConfigurations =
-            new Dictionary<TState, StateConfiguration<TState>>();
+        private readonly Dictionary<TState, IStateBehaviour<TState>> _stateBehaviours =
+            new Dictionary<TState, IStateBehaviour<TState>>();
         
         private readonly Dictionary<TState, HashSet<TState>> _statePermissions =
             new Dictionary<TState, HashSet<TState>>();
@@ -16,26 +16,26 @@ namespace JeeLee.Statemachine
         private Action<TState, TState> _transitionCallback;
         
         public TState State { get; private set; }
-        public bool IsInitialized { get; private set; }
 
         public StateMachine(TState initialState = default) 
         {
             State = initialState;
         }
 
-        public void ConfigureState(TState state, StateBehaviour<TState> behaviour)
+        public void SetStateBehaviour(TState state, IStateBehaviour<TState> behaviour)
         {
-            if (!_stateConfigurations.TryGetValue(state, out StateConfiguration<TState> configuration))
+            if (_stateBehaviours.ContainsKey(state))
             {
-                configuration = new StateConfiguration<TState>(this, state, behaviour);
-                _stateConfigurations.Add(state, configuration);
+                return;
             }
 
-            if (IsInitialized)
-                return;
+            behaviour.OnStateFired += Fire;
+            _stateBehaviours.Add(state, behaviour);
 
-            IsInitialized = true;
-            configuration.Enter();
+            if (State.Equals(state))
+            {
+                behaviour.Enter();
+            }
         }
 
         public void SetPermission(TState source, TState target)
@@ -52,11 +52,13 @@ namespace JeeLee.Statemachine
         public void Fire(TState target)
         {
             if (!CheckStatePermission(target))
+            {
                 return;
+            }
 
             TState source = State;
-            _transitionCallback?.Invoke(source, target);
             TransitionState(source, target);
+            _transitionCallback?.Invoke(source, target);
         }
 
         public void AddListener(Action<TState, TState> callback)
@@ -76,9 +78,9 @@ namespace JeeLee.Statemachine
 
         private void TransitionState(TState source, TState target)
         {
-            _stateConfigurations[source].Exit();
+            _stateBehaviours[source].Exit();
             State = target;
-            _stateConfigurations[target].Enter();
+            _stateBehaviours[target].Enter();
         }
     }
 }
