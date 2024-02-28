@@ -63,10 +63,10 @@ Alternativly you could derive from `MonoStateBehaviour` if you want your behavio
 
 ## Configuration
 
-Once you have made all the necesairy behaviours you can start configuring your state machine. You can use the `ConfigureState()` method on the state machine to set a behaviour per state. This method takes two parameters. First the state you want to configure and second the behaviour instance you want to assign to that state.
+Once you have made all the necesairy behaviours you can start configuring your state machine. You can use the `SetStateBehaviour()` method on the state machine to set a behaviour per state. This method takes two parameters. First the state you want to configure and second the behaviour instance you want to assign to that state.
 
 ```c#
-stateMachine.ConfigureState(State.Initialization, new InitializationStateBehaviour());
+stateMachine.SetStateBehaviour(State.Initialization, new InitializationStateBehaviour());
 ```
 
 After all these state behaviours have been assigned you need to define the permissions. You can do this using the `SetPermission()` method. Doing this tells the state machine which states can be accessed from a certain state and which transitions are allowed. In the example below we tell the state machine to allow transitions from `Initialization` to `Login`.
@@ -76,6 +76,13 @@ stateMachine.SetPermission(State.Initialization, State.Login);
 ```
 
 Note that this is a one way permission, if you want to allow the state machine to transition the opposite way you need to define another permission.
+
+There is also an overload for the `SetPermisson()` method which allows you to make the permitted transition conditional. This way you can permit a transition to happen only when a certain condition is met. For this you can add a predicate method as the last parameter which determines if the condition has been met.
+
+```c#
+bool canTransition = true;
+stateMachine.SetPermission(State.Initialization, State.Login, () => canTransition);
+```
 
 ## Transitioning
 

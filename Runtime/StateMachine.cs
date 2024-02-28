@@ -14,10 +14,10 @@ namespace JeeLee.Statemachine
         private readonly Dictionary<TState, IStateBehaviour<TState>> _stateBehaviours =
             new Dictionary<TState, IStateBehaviour<TState>>();
 
-        private readonly Dictionary<TState, HashSet<TState>> _statePermissions =
-            new Dictionary<TState, HashSet<TState>>();
+        private readonly Dictionary<TState, StatePermission<TState>> _statePermissions =
+            new Dictionary<TState, StatePermission<TState>>();
 
-        private Action<TState, TState> _transitionCallback;
+        private event Action<TState, TState> _transitionCallback;
 
         /// <summary>
         /// Gets or sets the current state of the state machine.
@@ -61,13 +61,30 @@ namespace JeeLee.Statemachine
         /// <param name="target">The target state.</param>
         public void SetPermission(TState source, TState target)
         {
-            if (!_statePermissions.TryGetValue(source, out HashSet<TState> permissions))
+            if (!_statePermissions.TryGetValue(source, out StatePermission<TState> permissions))
             {
-                permissions = new HashSet<TState>();
+                permissions = new StatePermission<TState>();
                 _statePermissions.Add(source, permissions);
             }
 
-            permissions.Add(target);
+            permissions.Permit(target);
+        }
+
+        /// <summary>
+        /// Sets a permission for transitioning from one state to another based on a predicate.
+        /// </summary>
+        /// <param name="source">The source state.</param>
+        /// <param name="target">The target state.</param>
+        /// <param name="predicate">The predicate function to determine if the transition is allowed.</param>
+        public void SetPermission(TState source, TState target, Func<bool> predicate)
+        {
+            if (!_statePermissions.TryGetValue(source, out StatePermission<TState> permissions))
+            {
+                permissions = new StatePermission<TState>();
+                _statePermissions.Add(source, permissions);
+            }
+
+            permissions.Permit(target, predicate);
         }
 
         /// <summary>
@@ -111,7 +128,7 @@ namespace JeeLee.Statemachine
         /// <returns><c>true</c> if transitioning to the target state is permitted; otherwise, <c>false</c>.</returns>
         private bool CheckStatePermission(TState target)
         {
-            return _statePermissions[State].Contains(target);
+            return _statePermissions[State].CanTransition(target);
         }
 
         /// <summary>
