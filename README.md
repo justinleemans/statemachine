@@ -55,6 +55,8 @@ public class InitializationStateBehaviour : StateBehaviour<State>
 
 The state behaviour will have to required methods to implement. `OnEnter` and `OnExit`. These methods can be used to handle everything you want to happen once a state transition happens. For example you could use this to subscribe and unsubscribe from events.
 
+Each behaviour class also has access to a property called `IsActive` which is a boolean that indicates wheter that state is currently active.
+
 ## Component Behaviours
 
 Alternativly you could derive from `MonoStateBehaviour` if you want your behaviour class to be a component. This can be especially helpful if you want to use unity component related methods. This can for example help when building a UI where you want to easily switch windows.

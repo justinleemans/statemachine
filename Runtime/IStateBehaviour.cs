@@ -15,6 +15,11 @@ namespace JeeLee.StateMachine
         event Action<TState> OnStateFired;
 
         /// <summary>
+        /// Gets a value indicating whether the state behavior is currently active.
+        /// </summary>
+        bool IsActive { get; }
+
+        /// <summary>
         /// Called when entering the associated state.
         /// </summary>
         void Enter();

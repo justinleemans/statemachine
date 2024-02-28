@@ -17,11 +17,18 @@ namespace JeeLee.StateMachine
         public event Action<TState> OnStateFired;
 
         /// <summary>
+        /// Gets a value indicating whether the state behavior is currently active.
+        /// </summary>
+        public bool IsActive { get; private set; }
+
+        /// <summary>
         /// Called when entering the associated state.
         /// </summary>
         public void Enter()
         {
             OnEnter();
+
+            IsActive = true;
         }
 
         /// <summary>
@@ -29,6 +36,8 @@ namespace JeeLee.StateMachine
         /// </summary>
         public void Exit()
         {
+            IsActive = false;
+
             OnExit();
         }
 
