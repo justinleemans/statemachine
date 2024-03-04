@@ -1,6 +1,6 @@
-# Statemachine - Easy statemachine package for Unity
+# UniStateMachine - Easy statemachine package for Unity
 
-A simple statemachine package for Unity
+A simple statemachine package for Unity with some usefull features.
 
 # Table of Contents
 
@@ -10,7 +10,7 @@ A simple statemachine package for Unity
 
 # Installation
 
-Currently the best way to include this package in your project is through the unity package manager. Add the package using the git URL of this repo: https://github.com/justinleemans/statemachine.git
+Currently the best way to include this package in your project is through the unity package manager. Add the package using the git URL of this repo: https://github.com/justinleemans/uni-state-machine.git
 
 # Quick Start
 

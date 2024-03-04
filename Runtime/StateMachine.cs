@@ -1,8 +1,7 @@
-using JeeLee.StateMachine;
 using System;
 using System.Collections.Generic;
 
-namespace JeeLee.Statemachine
+namespace JeeLee.UniStateMachine
 {
     /// <summary>
     /// Represents a state machine.

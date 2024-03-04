@@ -1,8 +1,8 @@
 {
-  "name": "com.justinleemans.statemachine",
-  "version": "1.0.0",
-  "displayName": "Statemachine",
-  "description": "Easy statemachine package for Unity",
+  "name": "com.justinleemans.uni-state-machine",
+  "version": "1.1.0",
+  "displayName": "UniStateMachine",
+  "description": "Easy state machine package for Unity",
   "author": {
     "name": "Justin Leemans"
   },

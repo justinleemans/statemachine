@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JeeLee.StateMachine
+namespace JeeLee.UniStateMachine
 {
     /// <summary>
     /// Represents permissions for state transitions in a state machine.

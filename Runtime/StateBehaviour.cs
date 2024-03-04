@@ -1,6 +1,6 @@
 using System;
 
-namespace JeeLee.StateMachine
+namespace JeeLee.UniStateMachine
 {
     /// <summary>
     /// Represents a base class for state behaviors in a state machine.
